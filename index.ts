@@ -1,4 +1,4 @@
-import 'module-alias/register';
+import "tsconfig-paths/register";
 import 'dotenv/config'
 
 import {serve} from "@hono/node-server"

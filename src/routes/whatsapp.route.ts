@@ -1,11 +1,8 @@
 import {Hono} from "hono";
+import WhatsappHandler from "@/handlers/whatsapp.handler";
 
 const whatsappRoute = new Hono();
 
-whatsappRoute.post("/start", (c) => {
-    return c.json({
-        success: true
-      }, 201)
-})
+whatsappRoute.post("/start", ...WhatsappHandler.start());
 
-export default whatsappRoute
+export default whatsappRoute;

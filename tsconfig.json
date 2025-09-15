@@ -5,23 +5,20 @@
     "module": "CommonJS",
     "lib": ["ES2021"],
 
-    /* Module Resolution */
     "moduleResolution": "node",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "types": ["node"],
 
-    /* Strictness */
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
 
-    /* Output */
-    "outDir": "dist",                 // compiled output root
-    "rootDir": ".",                   // treat project root as source root
+    "outDir": "dist",
+    "rootDir": ".",
     "sourceMap": true,
     "declaration": false,
 
@@ -29,10 +26,12 @@
     "paths": {
       "@/*": ["*"]
     },
-
-    /* Incremental */
     "incremental": true,
     "tsBuildInfoFile": ".tsbuildinfo"
+  },
+  "ts-node": {
+    "transpileOnly": true,
+    "require": ["tsconfig-paths/register"]
   },
   "include": ["index.ts", "src/**/*"],
   "exclude": ["node_modules", "dist", "**/*.test.ts"]
