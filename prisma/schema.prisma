@@ -14,7 +14,7 @@ model Client {
   isActive  Boolean  @default(false) @map("is_active")
   createdAt DateTime @default(now()) @map("created_at")
 
-  ClientKey ClientKey?
+  clientKey ClientKey?
 
   @@map("clients")
 }
@@ -25,4 +25,6 @@ model ClientKey {
   clientId Int    @unique @map("client_id")
 
   client Client @relation(fields: [clientId], references: [id])
+
+  @@map("client_keys")
 }
