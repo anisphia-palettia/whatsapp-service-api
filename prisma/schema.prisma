@@ -11,7 +11,7 @@ datasource db {
 model Client {
   id        Int      @id @default(autoincrement()) @map("id")
   name      String   @unique @map("name")
-  status    Boolean  @default(false) @map("status")
+  isActive  Boolean  @default(false) @map("is_active")
   createdAt DateTime @default(now()) @map("created_at")
 
   ClientKey ClientKey?
