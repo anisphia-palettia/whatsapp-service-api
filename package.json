@@ -14,11 +14,13 @@
   "packageManager": "pnpm@10.14.0",
   "dependencies": {
     "@hono/node-server": "^1.19.2",
+    "@hono/zod-validator": "^0.7.3",
     "@prisma/client": "^6.16.2",
     "baileys": "7.0.0-rc.2",
     "dotenv": "^17.2.2",
     "hono": "^4.9.6",
-    "pino": "^9.9.5"
+    "pino": "^9.9.5",
+    "zod": "^4.1.9"
   },
   "devDependencies": {
     "@eslint/js": "^9.35.0",
