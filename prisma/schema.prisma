@@ -1,6 +1,6 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
+  output   = "./generated"
 }
 
 datasource db {
@@ -24,7 +24,7 @@ model ClientKey {
   key      String @unique @default(uuid()) @map("key")
   clientId Int    @unique @map("client_id")
 
-  client Client @relation(fields: [clientId], references: [id])
+  client Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
 
   @@map("client_keys")
 }

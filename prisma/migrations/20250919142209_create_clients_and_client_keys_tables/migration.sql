@@ -27,4 +27,4 @@ CREATE UNIQUE INDEX "client_keys_key_key" ON "public"."client_keys"("key");
 CREATE UNIQUE INDEX "client_keys_client_id_key" ON "public"."client_keys"("client_id");
 
 -- AddForeignKey
-ALTER TABLE "public"."client_keys" ADD CONSTRAINT "client_keys_client_id_fkey" FOREIGN KEY ("client_id") REFERENCES "public"."clients"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "public"."client_keys" ADD CONSTRAINT "client_keys_client_id_fkey" FOREIGN KEY ("client_id") REFERENCES "public"."clients"("id") ON DELETE CASCADE ON UPDATE CASCADE;

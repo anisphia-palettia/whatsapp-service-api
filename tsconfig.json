@@ -25,6 +25,7 @@
     "baseUrl": "src",
     "paths": {
       "@/*": ["*"],
+      "@/generated": ["../prisma/generated"]
     },
     "incremental": true,
     "tsBuildInfoFile": ".tsbuildinfo"
