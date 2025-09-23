@@ -1,7 +1,5 @@
-import {createFactory} from "hono/factory";
 import logger from "@/lib/logger";
-
-const factory = createFactory();
+import factory from "@/lib/factory";
 
 const loggerReqMiddleware = factory.createMiddleware(async (c, next) => {
     const start = Date.now()

@@ -1,8 +1,10 @@
 import prismaClient from "@/lib/db";
-import {ClientCreatePayload, ClientDeletePayload} from "@/schema/client.schema";
+import {Prisma} from "@/generated";
+
+import ClientCreateInput = Prisma.ClientCreateInput;
 
 const clientService = {
-    async create(data: ClientCreatePayload) {
+    async create(data: ClientCreateInput) {
         return prismaClient.client.create({
             data: {
                 ...data,
@@ -19,16 +21,23 @@ const clientService = {
             }
         })
     },
-    async delete(data: ClientDeletePayload) {
+    async deleteById(id: number) {
         return prismaClient.client.delete({
             where: {
-                id: Number(data.id),
+                id,
             }, include: {
                 clientKey: {
                     select: {
                         key: true
                     }
                 }
+            }
+        })
+    },
+    async findById(id: number) {
+        return prismaClient.client.findFirst({
+            where: {
+                id
             }
         })
     }

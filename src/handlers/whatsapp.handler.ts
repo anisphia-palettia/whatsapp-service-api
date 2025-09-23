@@ -1,7 +1,6 @@
-import {createFactory} from "hono/factory";
 import apiResponse from "@/utils/api-response";
+import factory from "@/lib/factory";
 
-const factory = createFactory();
 
 const WhatsappHandler = {
     start() {
