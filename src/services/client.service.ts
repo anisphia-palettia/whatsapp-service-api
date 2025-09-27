@@ -1,45 +1,33 @@
-import prismaClient from "@/lib/db";
-import {Prisma} from "@/generated";
+import {Prisma, PrismaClient} from "@/generated";
 
 import ClientCreateInput = Prisma.ClientCreateInput;
 
-const clientService = {
+export default class ClientService {
+    private prisma: PrismaClient
+
+    constructor(prisma: PrismaClient) {
+        this.prisma = prisma;
+    }
+
     async create(data: ClientCreateInput) {
-        return prismaClient.client.create({
-            data: {
-                ...data,
-                clientKey: {
-                    create: {}
-                }
-            },
-            include: {
-                clientKey: {
-                    select: {
-                        key: true
-                    }
-                }
-            }
+        return this.prisma.client.create({
+            data
         })
-    },
-    async deleteById(id: number) {
-        return prismaClient.client.delete({
+    }
+
+    async deleteById(id: string) {
+        return this.prisma.client.delete({
             where: {
-                id,
-            }, include: {
-                clientKey: {
-                    select: {
-                        key: true
-                    }
-                }
-            }
+                id
+            },
         })
-    },
-    async findById(id: number) {
-        return prismaClient.client.findFirst({
+    }
+
+    async findById(id: string) {
+        return this.prisma.client.findFirst({
             where: {
                 id
             }
         })
     }
 }
-export default clientService;

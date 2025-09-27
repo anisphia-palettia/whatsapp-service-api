@@ -2,38 +2,34 @@
   "compilerOptions": {
     /* Language and Environment */
     "target": "ES2021",
-    "module": "CommonJS",
+    "module": "ESNext",
     "lib": ["ES2021"],
 
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "types": ["node"],
 
+    /* Strictness */
     "strict": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
 
+    /* Output */
     "outDir": "dist",
-    "rootDir": ".",
+    "rootDir": "src",
     "sourceMap": true,
-    "declaration": false,
 
+    /* Path alias */
     "baseUrl": "src",
     "paths": {
       "@/*": ["*"],
       "@/generated": ["../prisma/generated"]
-    },
-    "incremental": true,
-    "tsBuildInfoFile": ".tsbuildinfo"
+    }
   },
-  "ts-node": {
-    "transpileOnly": true,
-    "require": ["tsconfig-paths/register"]
-  },
-  "include": ["index.ts", "src/**/*", "generated"],
+  "include": ["src",
+    "src/index.ts"
+  ],
   "exclude": ["node_modules", "dist", "**/*.test.ts"]
 }

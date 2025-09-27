@@ -1,5 +1,5 @@
 import {Context} from "hono";
-import {ContentfulStatusCode} from "hono/dist/types/utils/http-status";
+import type { ContentfulStatusCode } from "hono/utils/http-status";
 
 type ApiResponse<T = unknown> = {
     success: boolean;
