@@ -1,4 +1,4 @@
-import {Prisma, PrismaClient} from "@/generated";
+import {Prisma, PrismaClient} from "@/generated/index";
 
 import ClientCreateInput = Prisma.ClientCreateInput;
 
@@ -15,7 +15,7 @@ export default class ClientService {
         })
     }
 
-    async deleteById(id: string) {
+    async deleteById(id: string | undefined ) {
         return this.prisma.client.delete({
             where: {
                 id

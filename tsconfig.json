@@ -1,35 +1,33 @@
 {
   "compilerOptions": {
-    /* Language and Environment */
     "target": "ES2021",
     "module": "ESNext",
     "lib": ["ES2021"],
-
     "moduleResolution": "bundler",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "types": ["node"],
-
-    /* Strictness */
     "strict": true,
     "forceConsistentCasingInFileNames": true,
+    "strictNullChecks": true,
     "skipLibCheck": true,
-
-    /* Output */
     "outDir": "dist",
-    "rootDir": "src",
+    "rootDir": ".",
     "sourceMap": true,
-
-    /* Path alias */
-    "baseUrl": "src",
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["*"],
-      "@/generated": ["../prisma/generated"]
+      "@/*": ["src/*"],
+      "@/generated/*": ["prisma/generated/*"]
     }
   },
-  "include": ["src",
-    "src/index.ts"
+  "include": [
+    "src",
+    "prisma/generated"
   ],
-  "exclude": ["node_modules", "dist", "**/*.test.ts"]
+  "exclude": [
+    "node_modules",
+    "dist",
+    "**/*.test.ts"
+  ]
 }
