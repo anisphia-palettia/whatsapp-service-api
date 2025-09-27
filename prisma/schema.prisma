@@ -4,7 +4,7 @@ generator client {
 }
 
 generator zod {
-  provider       = "zod-prisma-types"
+  provider = "zod-prisma-types"
 }
 
 datasource db {
@@ -12,11 +12,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Client {
+model Session {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   name      String   @unique
   isActive  Boolean  @default(false)
   createdAt DateTime @default(now())
 
   clientKey String @unique @default(uuid())
+
+  @@map("sessions")
 }

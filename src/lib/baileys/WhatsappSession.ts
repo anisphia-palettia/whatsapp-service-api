@@ -1,7 +1,8 @@
 import makeWASocket, {
     WASocket,
-    useMultiFileAuthState
+    useMultiFileAuthState, DisconnectReason
 } from "baileys"
+import {Boom} from "@hapi/boom";
 
 export class WhatsAppSession {
     id: string
@@ -25,7 +26,7 @@ export class WhatsAppSession {
         this.sock.ev.on("creds.update", saveCreds)
 
         this.sock.ev.on("connection.update", (update) => {
-            const {connection, qr} = update
+            const {connection, qr, lastDisconnect} = update
             if (qr) {
                 this.lastQr = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(
                     qr
@@ -37,7 +38,13 @@ export class WhatsAppSession {
                 console.log(`[${this.id}] Connected`)
             } else if (connection === "close") {
                 this.connected = false
-                console.log(`[${this.id}] Disconnected`)
+                const shouldReconnect =
+                    (lastDisconnect?.error as Boom)?.output?.statusCode !== DisconnectReason.loggedOut
+
+                console.log(`[${this.id}] Disconnected, reconnect? ${shouldReconnect}`)
+                if (shouldReconnect) {
+                    this.start()
+                }
             }
         })
 

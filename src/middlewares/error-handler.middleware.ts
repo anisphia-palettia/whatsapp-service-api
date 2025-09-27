@@ -1,5 +1,5 @@
 import {ErrorHandler} from "hono";
-import {Prisma} from "@/generated";
+import {Prisma} from "@/generated/index";
 import apiResponse from "@/utils/api-response";
 
 const errorHandlerMiddleware: ErrorHandler = (err, c) => {
