@@ -50,5 +50,13 @@ export default class SessionHandler {
         })
     }
 
-
+    sendMessage() {
+        return factory.createHandlers(zodValidatorMiddleware("param", SessionSchema.paramId), zodValidatorMiddleware("json", SessionSchema.sendMessage), async (c) => {
+            const {id} = c.req.valid("param")
+            const {to, message} = c.req.valid("json")
+            const s = this.manager.getSession(id)
+            await s?.sendMessage(to, message)
+            return apiResponse.success(c, `Success send message to ${to}`, null, 201)
+        })
+    }
 }

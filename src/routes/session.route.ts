@@ -14,5 +14,6 @@ const sessionHandler = new SessionHandler(sessionService, sessionManager);
 sessionRoute.post("/", ...sessionHandler.create());
 sessionRoute.delete("/:id", ...sessionHandler.delete());
 sessionRoute.post("/:id/start", ...sessionHandler.start())
+sessionRoute.post("/:id/send", ...sessionHandler.sendMessage())
 
 export default sessionRoute;

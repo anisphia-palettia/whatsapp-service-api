@@ -6,7 +6,9 @@ import factory from "@/lib/factory";
 const app = factory.createApp()
 
 app.use("*", loggerReqMiddleware)
-app.route("/client", sessionRoute)
+
+app.route("/session", sessionRoute)
+
 app.onError(errorHandlerMiddleware)
 
 export default app
