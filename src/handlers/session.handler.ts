@@ -8,6 +8,8 @@ import {
 import {SessionSchema} from "@/schema/session.schema";
 import {SessionManager} from "@/lib/baileys/SessionManager";
 import assertFound from "@/utils/assert-found";
+import {HTTPException} from "hono/http-exception";
+import normalizeJid from "@/utils/normalize-jid";
 
 export default class SessionHandler {
     private sessionService: SessionService;
@@ -50,12 +52,28 @@ export default class SessionHandler {
         })
     }
 
+    qr() {
+        return factory.createHandlers(
+            zodValidatorMiddleware("param", SessionSchema.paramId),
+            async (c) => {
+                const {id} = c.req.valid("param")
+                await assertFound(this.sessionService.findById(id), `Session ${id} not found`)
+                const s = this.manager.getSession(id) ?? (() => {
+                    throw new HTTPException(400, {message: "Session not found"})
+                })()
+                return apiResponse.success(c, s.lastQr ? "Success get last qr code" : "Session was running", s.lastQr && {QrUrl: s.lastQr})
+            }
+        )
+
+    }
+
     sendMessage() {
         return factory.createHandlers(zodValidatorMiddleware("param", SessionSchema.paramId), zodValidatorMiddleware("json", SessionSchema.sendMessage), async (c) => {
             const {id} = c.req.valid("param")
             const {to, message} = c.req.valid("json")
             const s = this.manager.getSession(id)
-            await s?.sendMessage(to, message)
+            if (!s) throw new HTTPException(400, {message: "Session not found"})
+            await s?.sendMessage(normalizeJid(to), message)
             return apiResponse.success(c, `Success send message to ${to}`, null, 201)
         })
     }
