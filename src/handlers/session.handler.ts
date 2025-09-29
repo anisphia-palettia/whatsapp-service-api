@@ -47,8 +47,24 @@ export default class SessionHandler {
             const {id} = c.req.valid("param")
             assertFound(await this.sessionService.findById(id), `Session ${id} not found`)
             const s = await this.manager.createSession(id)
-            await this.sessionService.update(id, {isActive: true})
             return apiResponse.success(c, `Success start session ${s.id}`)
+        })
+    }
+
+    stop() {
+        return factory.createHandlers(zodValidatorMiddleware("param", SessionSchema.paramId), async (c) => {
+            const {id} = c.req.valid("param")
+            await assertFound(this.sessionService.findById(id), `Session ${id} not found`)
+            await this.manager.stopSession(id)
+            await this.sessionService.update(id, {isActive: false})
+            return apiResponse.success(c, `Success stop session ${id}`)
+        })
+    }
+
+    restoreSession () {
+        return factory.createHandlers(async (c) => {
+            await this.manager.restoreAllSessions()
+            return apiResponse.success(c, "Success restore session")
         })
     }
 

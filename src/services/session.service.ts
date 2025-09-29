@@ -10,6 +10,10 @@ export default class SessionService {
         this.prisma = prisma;
     }
 
+    async find() {
+        return this.prisma.session.findMany()
+    }
+
     async create(data: SessionCreateInput) {
         return this.prisma.session.create({
             data
@@ -37,6 +41,12 @@ export default class SessionService {
             where: {
                 id
             }, data
+        })
+    }
+
+    async getActiveSessions() {
+        return this.prisma.session.findMany({
+            where: {isActive: true}
         })
     }
 }

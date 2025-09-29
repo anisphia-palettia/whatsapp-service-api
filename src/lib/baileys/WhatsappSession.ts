@@ -5,6 +5,9 @@ import makeWASocket, {
 } from "baileys"
 import {Boom} from "@hapi/boom"
 import fs from "fs-extra"
+import prismaClient from "@/lib/db";
+import SessionService from "@/services/session.service";
+import sessionRoute from "@/routes/session.route";
 
 export class WhatsAppSession {
     id: string
@@ -14,14 +17,17 @@ export class WhatsAppSession {
     lastQr: string | null = null
     qrTimeout?: NodeJS.Timeout
     stopping = false
+    sessionService: SessionService
 
     constructor(
         id: string,
         folder: string,
+        sessionService: SessionService,
         private onLogout?: (id: string) => void
     ) {
         this.id = id
         this.folder = folder
+        this.sessionService = sessionService
     }
 
     async start(): Promise<void> {
@@ -34,7 +40,10 @@ export class WhatsAppSession {
 
         this.sock = makeWASocket({auth: state})
 
-        this.sock.ev.on("creds.update", saveCreds)
+        this.sock.ev.on("creds.update", async () => {
+            await saveCreds()
+            await this.sessionService.update(this.id, {isActive: true})
+        })
 
         this.sock.ev.on("connection.update", async (update) => {
             const {connection, qr, lastDisconnect} = update
@@ -98,6 +107,7 @@ export class WhatsAppSession {
     }
 
     async stop(clearAuth = false): Promise<void> {
+        await this.sessionService.update(this.id, {isActive: false})
         this.stopping = true
 
         if (this.sock) {
