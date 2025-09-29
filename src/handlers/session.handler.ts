@@ -61,7 +61,7 @@ export default class SessionHandler {
         })
     }
 
-    restoreSession () {
+    restoreSession() {
         return factory.createHandlers(async (c) => {
             await this.manager.restoreAllSessions()
             return apiResponse.success(c, "Success restore session")
@@ -91,6 +91,16 @@ export default class SessionHandler {
             if (!s) throw new HTTPException(400, {message: "Session not found"})
             await s?.sendMessage(normalizeJid(to), message)
             return apiResponse.success(c, `Success send message to ${to}`, null, 201)
+        })
+    }
+
+    getAllGroups() {
+        return factory.createHandlers(zodValidatorMiddleware("param", SessionSchema.paramId,), async (c) => {
+            const {id} = c.req.valid("param")
+            const s = this.manager.getSession(id)
+            if (!s) throw new HTTPException(400, {message: "Session not found"})
+            const groups = await s.getAllGroups()
+            return apiResponse.success(c, "Success get all groups", groups, 200)
         })
     }
 }

@@ -1,13 +1,12 @@
 import makeWASocket, {
     WASocket,
     useMultiFileAuthState,
-    DisconnectReason
+    DisconnectReason, GroupMetadata
 } from "baileys"
 import {Boom} from "@hapi/boom"
 import fs from "fs-extra"
-import prismaClient from "@/lib/db";
 import SessionService from "@/services/session.service";
-import sessionRoute from "@/routes/session.route";
+import * as console from "node:console";
 
 export class WhatsAppSession {
     id: string
@@ -143,5 +142,17 @@ export class WhatsAppSession {
         if (!this.sock) throw new Error("Socket belum aktif")
         if (!this.connected) throw new Error("Belum connect ke WhatsApp")
         return await this.sock.sendMessage(to, {text}, {statusJidList: []})
+    }
+
+    async getAllGroups() {
+        if (!this.sock) throw new Error("Socket belum aktif")
+        if (!this.connected) throw new Error("Belum connect ke WhatsApp")
+
+        const groups = await this.sock.groupFetchAllParticipating()
+        return Object.values(groups).map(g => ({
+            id: g.id,
+            subject: g.subject,
+            participants: g.participants?.map(p => p.id),
+        }))
     }
 }

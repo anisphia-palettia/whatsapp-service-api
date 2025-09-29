@@ -21,6 +21,7 @@ waRoute.post("/:id/start", ...sessionHandler.start())
 waRoute.post("/:id/stop", ...sessionHandler.stop())
 waRoute.get("/:id/qr", ...sessionHandler.qr())
 waRoute.post("/:id/send", ...sessionHandler.sendMessage())
+waRoute.get("/:id/groups", ...sessionHandler.getAllGroups())
 
 sessionRoute.route("/", waRoute)
 
