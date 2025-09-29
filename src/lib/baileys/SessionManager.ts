@@ -47,7 +47,6 @@ export class SessionManager {
 
     async restoreAllSessions() {
         const sessions = await this.sessionService.getActiveSessions()
-        console.log(sessions)
         for (const {id} of sessions) {
             if (this.sessions.has(id)) continue
             console.log(`[Manager] Restoring session ${id}`)
