@@ -3,7 +3,7 @@ import loggerReqMiddleware from "@/middlewares/logger-req.middleware";
 import sessionRoute from "@/routes/session.route";
 import factory from "@/lib/factory";
 import {serveStatic} from "@hono/node-server/serve-static";
-import {cors} from "hono/cors";
+import { cors } from 'hono/cors'
 
 const app = factory.createApp()
 
