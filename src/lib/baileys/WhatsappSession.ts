@@ -7,6 +7,7 @@ import {Boom} from "@hapi/boom"
 import fs from "fs-extra"
 import SessionService from "@/services/session.service";
 import * as console from "node:console";
+import saveMessage from "@/utils/save-message";
 
 export class WhatsAppSession {
     id: string
@@ -99,9 +100,10 @@ export class WhatsAppSession {
             }
         })
 
-        this.sock.ev.on("messages.upsert", (m) => {
-            // handle pesan masuk di sini kalau mau
-            // console.log(`[${this.id}] Pesan baru:`, JSON.stringify(m, null, 2))
+        this.sock.ev.on("messages.upsert", async (m) => {
+            for (const msg of m.messages) {
+                await saveMessage(msg, this.id)
+            }
         })
     }
 
