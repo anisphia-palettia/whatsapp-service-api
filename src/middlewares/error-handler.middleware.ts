@@ -4,7 +4,6 @@ import apiResponse from "@/utils/api-response";
 import * as console from "node:console";
 
 const errorHandlerMiddleware: ErrorHandler = (err, c) => {
-    console.error(err);
     if (err instanceof Prisma.PrismaClientKnownRequestError) {
         switch (err.code) {
             case "P2002":
