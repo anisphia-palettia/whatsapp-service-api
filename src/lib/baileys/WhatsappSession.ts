@@ -101,9 +101,9 @@ export class WhatsAppSession {
         })
 
         this.sock.ev.on("messages.upsert", async (m) => {
-            for (const msg of m.messages) {
-                await saveMessage(msg, this.id)
-            }
+            // for (const msg of m.messages) {
+            //     await saveMessage(msg, this.id)
+            // }
         })
     }
 
